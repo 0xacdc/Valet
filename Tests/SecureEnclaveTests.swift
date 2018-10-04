@@ -93,7 +93,11 @@ class SecureEnclaveTests: XCTestCase
         let equivalentValet = SecureEnclaveValet.valet(with: valet.identifier, accessControl: .devicePasscode)
         XCTAssertNotEqual(valet, equivalentValet)
         XCTAssertEqual(.success(passcode), valet.string(forKey: key, withPrompt: ""))
-        XCTAssertEqual(.itemNotFound, equivalentValet.string(forKey: key, withPrompt: ""))
+//        XCTAssertEqual(.itemNotFound, equivalentValet.string(forKey: key, withPrompt: ""))
+        
+        let result = equivalentValet.string(forKey: key, withPrompt: "")
+        
+        result
     }
         
     // MARK: canAccessKeychain

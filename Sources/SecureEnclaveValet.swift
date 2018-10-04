@@ -239,40 +239,4 @@ extension SecureEnclaveValet {
         }
         return sharedAccessGroupValet(with: identifier, accessControl: accessControl)
     }
-    
-    // MARK: Public Methods
-    
-    /// - parameter key: A Key used to retrieve the desired object from the keychain.
-    /// - parameter userPrompt: The prompt displayed to the user in Apple's Face ID, Touch ID, or passcode entry UI.
-    /// - returns: The data currently stored in the keychain for the provided key. Returns `nil` if no object exists in the keychain for the specified key, or if the keychain is inaccessible.
-    @available(swift, obsoleted: 1.0)
-    @objc(objectForKey:userPrompt:userCancelled:)
-    public func 🚫swift_object(forKey key: String, withPrompt userPrompt: String, userCancelled: UnsafeMutablePointer<ObjCBool>?) -> Data? {
-        switch object(forKey: key, withPrompt: userPrompt) {
-        case let .success(data):
-            return data
-        case .userCancelled:
-            userCancelled?.pointee = true
-            return nil
-        case .itemNotFound:
-            return nil
-        }
-    }
-    
-    /// - parameter key: A Key used to retrieve the desired object from the keychain.
-    /// - parameter userPrompt: The prompt displayed to the user in Apple's Face ID, Touch ID, or passcode entry UI.
-    /// - returns: The string currently stored in the keychain for the provided key. Returns `nil` if no string exists in the keychain for the specified key, or if the keychain is inaccessible.
-    @available(swift, obsoleted: 1.0)
-    @objc(stringForKey:userPrompt:userCancelled:)
-    public func 🚫swift_string(forKey key: String, withPrompt userPrompt: String, userCancelled: UnsafeMutablePointer<ObjCBool>?) -> String? {
-        switch string(forKey: key, withPrompt: userPrompt) {
-        case let .success(string):
-            return string
-        case .userCancelled:
-            userCancelled?.pointee = true
-            return nil
-        case .itemNotFound:
-            return nil
-        }
-    }
 }

@@ -33,6 +33,8 @@ public final class SecureEnclave {
         case userCancelled
         /// No data was found for the requested key.
         case itemNotFound
+        /// Undefined
+        case undefined(OSStatus)
 
         // MARK: Initialization
 
@@ -42,30 +44,17 @@ public final class SecureEnclave {
                 self = .success(value)
 
             case let .error(status):
-                let userCancelled = (status == errSecUserCanceled || status == errSecAuthFailed)
-                if userCancelled {
+                switch status {
+                case errSecUserCanceled, errSecAuthFailed:
                     self = .userCancelled
-                } else {
+                    
+                case errSecItemNotFound:
                     self = .itemNotFound
+                    
+                default:
+                    self = .undefined(status)
                 }
             }
-        }
-
-        // MARK: Equatable
-        
-        public static func ==(lhs: Result<Type>, rhs: Result<Type>) -> Bool {
-            switch (lhs, rhs) {
-            case let (.success(lhsResult), .success(rhsResult)):
-                return lhsResult == rhsResult
-            case (.userCancelled, .userCancelled):
-                return true
-            case (.itemNotFound, .itemNotFound):
-                return true
-            case (.success, _),
-                 (.userCancelled, _),
-                 (.itemNotFound, _):
-              return false
-          }
         }
     }
     
