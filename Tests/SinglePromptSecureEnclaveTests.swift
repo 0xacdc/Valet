@@ -92,7 +92,7 @@ class SinglePromptSecureEnclaveTests: XCTestCase
         let equivalentValet = SecureEnclaveValet.valet(with: valet.identifier, accessControl: .devicePasscode)
         XCTAssertNotEqual(valet, equivalentValet)
         XCTAssertEqual(.success(passcode), valet.string(forKey: key, withPrompt: ""))
-        XCTAssertEqual(.itemNotFound, equivalentValet.string(forKey: key, withPrompt: ""))
+        XCTAssertEqual(.error(errSecItemNotFound), equivalentValet.string(forKey: key, withPrompt: ""))
     }
 
     // MARK: allKeys

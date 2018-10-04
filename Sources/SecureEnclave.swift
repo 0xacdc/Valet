@@ -29,12 +29,8 @@ public final class SecureEnclave {
     public enum Result<Type: Equatable>: Equatable {
         /// Data was retrieved from the keychain.
         case success(Type)
-        /// User dismissed the user-presence prompt.
-        case userCancelled
-        /// No data was found for the requested key.
-        case itemNotFound
         /// Undefined
-        case undefined(OSStatus)
+        case error(OSStatus)
 
         // MARK: Initialization
 
@@ -44,16 +40,7 @@ public final class SecureEnclave {
                 self = .success(value)
 
             case let .error(status):
-                switch status {
-                case errSecUserCanceled, errSecAuthFailed:
-                    self = .userCancelled
-                    
-                case errSecItemNotFound:
-                    self = .itemNotFound
-                    
-                default:
-                    self = .undefined(status)
-                }
+                self = .error(status)
             }
         }
     }
